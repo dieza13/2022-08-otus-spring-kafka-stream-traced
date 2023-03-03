@@ -1,0 +1,41 @@
+server:
+  servlet:
+    context-path: /api
+spring:
+  application:
+    name: contract-service
+  cloud:
+    stream:
+      binder:
+        brokers: "http://localhost:9092"
+        autoCreateTopics: true
+        autoAddPartitions: true
+      bindings:
+        contractProcessor-in-0.destination: processing-contract
+        contractProcessor-out-0.destination: routing-contract
+      kafka:
+        binder:
+          enableObservation: true
+    function: contractProcessor
+  kafka:
+    producer:
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+
+logging:
+  level:
+    root: INFO
+
+app:
+  params:
+    store-name: contract-status-state
+
+spring.cloud:
+  function.definition: contractProcessor
+

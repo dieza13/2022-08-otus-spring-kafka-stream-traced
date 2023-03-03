@@ -1,0 +1,13 @@
+docker run -d -p 9411:9411 openzipkin/zipkin
+
+SWAGGER:
+http://localhost:8080/api/swagger-ui/index.html
+
+UI:
+cd contract-service\library-ui
+npm start
+http://localhost:3000/
+
+KAFKA + ZIPKIN
+http://localhost:9411/zipkin/
+brokers: "http://localhost:9092"

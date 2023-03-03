@@ -1,0 +1,28 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: contract-correcting-service
+  cloud:
+    stream:
+      binder:
+        brokers: "http://localhost:9092"
+        autoCreateTopics: true
+        autoAddPartitions: true
+      bindings:
+        contractCorrectingProcess-in-0.destination: correcting-contract
+        contractCorrectingProcess-out-0.destination: processing-contract
+      kafka:
+        binder:
+          enableObservation: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO
+    org.apache.kafka: OFF
+
