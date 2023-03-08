@@ -13,6 +13,6 @@ public class KafkaServiceProperties {
     private String processingTopic;
 
     @Value("${app.params.store-name}")
-    private String STORE_NAME;
+    private String storeName;
 
 }

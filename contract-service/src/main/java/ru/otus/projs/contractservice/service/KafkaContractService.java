@@ -4,9 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.streams.state.QueryableStoreTypes;
 import org.apache.kafka.streams.state.ReadOnlyKeyValueStore;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.cloud.stream.binder.kafka.streams.InteractiveQueryService;
-import org.springframework.context.ApplicationContext;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 import ru.otus.projs.common.models.Contract;
@@ -19,14 +17,12 @@ import java.util.function.Function;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class KafkaContractService implements ContractService, InitializingBean {
+public class KafkaContractService implements ContractService {
 
     private final UniqueIdGenerator idGenerator;
     private final KafkaTemplate kafkaTemplate;
 
     private final KafkaServiceProperties props;
-
-    private final ApplicationContext ctx;
 
     private final InteractiveQueryService interactiveQueryService;
 
@@ -53,17 +49,8 @@ public class KafkaContractService implements ContractService, InitializingBean {
     public Function<String, ContractStatus> getStatus() {
         return integrationId -> {
             ReadOnlyKeyValueStore<String, String> keyValueStore  = interactiveQueryService
-                    .getQueryableStore(props.getSTORE_NAME(), QueryableStoreTypes.keyValueStore());
+                    .getQueryableStore(props.getStoreName(), QueryableStoreTypes.keyValueStore());
             return ContractStatus.valueOf(keyValueStore.get(integrationId));
         };
-    }
-
-
-
-    @Override
-    public void afterPropertiesSet() {
-        kafkaTemplate.setObservationEnabled(true);
-        kafkaTemplate.setApplicationContext(ctx);
-        kafkaTemplate.afterSingletonsInstantiated();
     }
 }

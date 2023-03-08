@@ -34,7 +34,7 @@ logging:
 
 app:
   params:
-    store-name: contract-status-state
+    storeName: contract-status-state
 
 spring.cloud:
   function.definition: contractProcessor

@@ -12,6 +12,8 @@ import org.apache.kafka.streams.kstream.*;
 import org.apache.kafka.streams.state.KeyValueStore;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.kafka.core.ProducerFactory;
 import org.springframework.kafka.support.serializer.JsonSerde;
 import ru.otus.projs.common.models.TracedContractInfo;
 import ru.otus.projs.tracing.deserializer.kafka.SimpleJsonDeserializer;
@@ -62,10 +64,18 @@ public class ServiceConfig {
                 .groupBy((s, contract) -> contract.getIntegrationId(),
                         Grouped.with(new Serdes.StringSerde(), new JsonSerde<>(TracedContractInfo.class, new ObjectMapper())))
                 .aggregate(String::new,(s, contract, status) -> contract.getStatus().getValue(),
-                        Materialized.<String, String, KeyValueStore<Bytes, byte[]>>as(props.getSTORE_NAME())
+                        Materialized.<String, String, KeyValueStore<Bytes, byte[]>>as(props.getStoreName())
                                 .withKeySerde(Serdes.String()).
                                 withValueSerde(Serdes.String())
                 );
+    }
+
+    @Bean
+    public KafkaTemplate tracedKafkaTemplate(ProducerFactory producerFactory) {
+        KafkaTemplate kafkaTemplate = new KafkaTemplate(producerFactory);
+        kafkaTemplate.setObservationEnabled(true);
+        kafkaTemplate.afterSingletonsInstantiated();
+        return kafkaTemplate;
     }
 
 }
