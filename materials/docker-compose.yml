@@ -1,0 +1,17 @@
+version: '3'
+services:
+  # Kafka service here
+  kafka-service:
+    image: landoop/fast-data-dev:latest
+    ports:
+      - "3030:3030"
+      - "9092:9092"
+    environment:
+      ADV_HOST: 127.0.0.1
+      BROKER_PORT: 9092
+
+  # Zipkin service here
+  zipkin-server:
+    image: openzipkin/zipkin
+    ports:
+      - "9411:9411"

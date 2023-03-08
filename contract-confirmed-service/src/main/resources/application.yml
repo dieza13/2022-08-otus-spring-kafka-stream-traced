@@ -1,0 +1,27 @@
+server:
+  port: 8084
+spring:
+  application:
+    name: contract-confirmed-service
+  cloud:
+    stream:
+      binder:
+        brokers: "http://localhost:9092"
+        autoCreateTopics: true
+        autoAddPartitions: true
+      bindings:
+        contractOnConfirmedProcess-in-0.destination: confirmed-contract
+      kafka:
+        binder:
+          enableObservation: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO
+    org.apache.kafka: OFF
+

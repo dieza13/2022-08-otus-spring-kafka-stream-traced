@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>ru.otus.projs</groupId>
+    <artifactId>2022-08-otus-spring-kafka-stream-traced</artifactId>
+    <packaging>pom</packaging>
+    <version>1.0</version>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+    </properties>
+
+    <modules>
+        <module>contract-service</module>
+        <module>services-common-models</module>
+        <module>branch-processor</module>
+        <module>contract-check-service</module>
+        <module>contract-executing-service</module>
+        <module>contract-confirmed-service</module>
+        <module>contract-canceled-service</module>
+        <module>contract-correcting-service</module>
+        <module>tracing-spring-boot-starter</module>
+    </modules>
+
+</project>

@@ -1,0 +1,32 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: branch-processor
+  cloud:
+    stream:
+      binder:
+        brokers: "http://localhost:9092"
+        autoCreateTopics: true
+        autoAddPartitions: true
+      bindings:
+        branchProcess-in-0.destination: routing-contract
+        branchProcess-out-0.destination: checking-contract
+        branchProcess-out-1.destination: correcting-contract
+        branchProcess-out-2.destination: executing-contract
+        branchProcess-out-3.destination: confirmed-contract
+        branchProcess-out-4.destination: canceled-contract
+      kafka:
+        binder:
+          enableObservation: true
+
+management:
+  tracing:
+    sampling:
+      probability: 1.0
+
+logging:
+  level:
+    root: INFO
+    org.apache.kafka: OFF
+
